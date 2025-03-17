@@ -3,8 +3,9 @@ import * as XLSX from "xlsx";
 
 const TableForRSS = () => {
   const [data, setData] = useState([]);
+
   useEffect(() => {
-    fetch("Book1.xlsx") // File should be in `public/` folder
+    fetch("Book1.xlsx")
       .then((res) => res.arrayBuffer())
       .then((buffer) => {
         const workbook = XLSX.read(buffer, { type: "array" });
@@ -18,7 +19,7 @@ const TableForRSS = () => {
       {data.length > 0 ? (
         <table className="w-full border-collapse border border-gray-300">
           <thead>
-            <tr className="bg-gray-200">
+            <tr className="bg-gray-200 sticky top-0">
               {data[0].map((header, index) => (
                 <th key={index} className="border border-gray-300 px-4 py-2 text-left">
                   {header}
@@ -28,7 +29,7 @@ const TableForRSS = () => {
           </thead>
           <tbody>
             {data.slice(1).map((row, rowIndex) => (
-              <tr key={rowIndex} className="hover:bg-gray-100">
+              <tr key={rowIndex} className="hover:bg-gray-50 transition-colors">
                 {row.map((cell, cellIndex) => (
                   <td key={cellIndex} className="border border-gray-300 px-4 py-2">
                     {cell}
