@@ -33,7 +33,7 @@ const Form = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center mt-8 px-4">
+    <div className="flex flex-col items-center justify-center px-4">
       <h2 className="text-2xl font-semibold mb-4 text-gray-800">Enter the frequency here...</h2>
       <form onSubmit={handleSubmit} className="bg-gradient-to-br from-blue-50 to-indigo-100 shadow-lg rounded-xl p-6 w-full max-w-md border border-gray-200">
         <input

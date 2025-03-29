@@ -2,19 +2,29 @@ import React, { useState, useEffect } from "react";
 import * as XLSX from "xlsx";
 
 const History = () => {
-  const [data,setData] = useState([]);
+  const [data, setData] = useState([]);
+
   useEffect(() => {
-    fetch("Book4.xlsx") // File should be in `public/` folder
+    fetch("Book4.xlsx") // Ensure file is inside the `public/` folder
       .then((res) => res.arrayBuffer())
       .then((buffer) => {
         const workbook = XLSX.read(buffer, { type: "array" });
         const sheet = workbook.Sheets[workbook.SheetNames[0]];
-        setData(XLSX.utils.sheet_to_json(sheet, { header: 1 }));
+        const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+
+        // Ensure all rows have the same number of columns
+        const maxColumns = Math.max(...jsonData.map(row => row.length));
+
+        const formattedData = jsonData
+          .map(row => Array.from({ length: maxColumns }, (_, i) => row[i] || "-")) // Fill missing values
+          .filter(row => row.some(cell => cell !== "-")); // Remove fully empty rows
+
+        setData(formattedData);
       });
   }, []);
 
   return (
-    <div className="max-h-[400px] overflow-y-auto border rounded-lg shadow-md p-2">
+    <div className="w-full border rounded-lg shadow-md p-4 bg-white">
       {data.length > 0 ? (
         <table className="w-full border-collapse border border-gray-300">
           <thead>
